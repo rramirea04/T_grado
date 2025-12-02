@@ -1,0 +1,382 @@
+:root {
+  --bg1: #081023;
+  --bg2: #071022;
+  --accent: #00c39a;
+  --muted: #9fb8c6;
+  --panel: #071526;
+  --glass: rgba(255, 255, 255, 0.04);
+  --glass-2: rgba(255, 255, 255, 0.02);
+  font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  background: linear-gradient(180deg, var(--bg1), var(--bg2));
+  color: #e6f7f1;
+}
+
+/* --- Ajuste principal: contenedor más ancho --- */
+.app {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  box-sizing: border-box;
+}
+
+.frame {
+  width: 100%;
+  max-width: 1400px; /* AUMENTADO */
+  height: 80vh;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius: 14px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  overflow: visible !important;  /* ← FIX PARA QUE NO CORTE EL TEXTO */
+  position: relative;
+  border: 1px solid rgba(255,255,255,0.03);
+}
+
+header.hud {
+  position: absolute;
+  left: 18px;
+  top: 16px;
+  padding-top: 10px; /* ← FIX PARA SEPARARLO DEL BORDE */
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  z-index: 30;
+}
+
+.logo_udea {
+  padding: 3px 5px;
+  background: var(--glass);
+  border-radius: 6px;
+  font-weight: 700;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.progress {
+  height: 8px;
+  width: 380px;
+  background: var(--glass-2);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.progress > i {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), #00ffd4);
+  transition: width .45s ease;
+}
+
+/* --- Más espacio a la columna principal --- */
+.frame-body {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1.8fr 360px; /* AUMENTADO */
+  gap: 18px;
+  padding: 28px;
+}
+
+.main {
+  background: transparent;
+  padding: 18px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.panel {
+  flex: 1;
+  border-radius: 12px;
+  padding: 26px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.03);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+h1.title { font-size: 28px; margin: 12px 0 6px; letter-spacing: .2px; }
+
+p.lead {
+  color: var(--muted);
+  font-size: 15px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.cta { margin-top: 20px; display:flex; gap:12px; align-items:center; }
+
+button.btn {
+  background: var(--accent);
+  color: #00231a;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0,195,154,0.12);
+}
+
+button.ghost {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid rgba(255,255,255,0.04);
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.hud-right {
+  position: absolute;
+  right: 18px;
+  top: 16px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  z-index: 30;
+}
+
+.side {
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+  border-left: 1px solid rgba(255,255,255,0.02);
+  padding: 20px;
+  border-radius: 8px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-sizing: border-box;
+  z-index: 20;
+}
+
+.side h3 { margin:6px 0; font-size:14px; color:var(--muted); }
+
+.side .tile {
+  background: rgba(255,255,255,0.02);
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.02);
+  text-align: left;
+  font-size: 13px;
+}
+
+.mission-bubble {
+  background: rgba(0,0,0,0.28);
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  display: inline-block;
+}
+
+.icon-row { display:flex; gap:10px; justify-content:center; margin-top:6px; }
+
+.icon {
+  width: 76px; height: 76px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  display:flex; align-items:center; justify-content:center;
+  border: 1px solid rgba(255,255,255,0.02);
+  font-weight:700; color:var(--muted);
+}
+
+footer.controls {
+  position: absolute;
+  bottom: 16px;
+  left: 24px;
+  right: 24px;
+  display:flex;
+  justify-content: space-between;
+  align-items:center;
+  gap:12px;
+  z-index: 40;
+}
+
+.controls .nav { display:flex; gap:10px; }
+
+.kbd {
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.03);
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.small { font-size: 13px; color: var(--muted); }
+
+.screen-title { font-size: 22px; margin-bottom:6px; }
+.screen-sub { color:var(--muted); font-size:14px; margin-bottom:16px; }
+
+.badge {
+  display:inline-block; background: rgba(0,0,0,0.35);
+  padding: 6px 10px; border-radius:8px; color:var(--accent);
+  font-weight:700; border:1px solid rgba(0,195,154,0.12);
+}
+
+.card-row { display:flex; gap:12px; justify-content:center; margin-top:14px; flex-wrap:wrap; }
+
+.card {
+  width:220px; height:120px; border-radius:12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+  display:flex; flex-direction:column; justify-content:center; align-items:center;
+  padding:12px; border:1px solid rgba(255,255,255,0.02);
+}
+
+.quote { font-style: italic; color:var(--muted); margin:10px 0; max-width:720px; }
+
+.final-choices { display:flex; gap:10px; justify-content:center; margin-top:14px; }
+
+input.textin {
+  width: 80%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.03);
+  background: transparent;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* responsive */
+@media (max-width: 980px) {
+  .frame-body { grid-template-columns: 1fr; padding: 14px; }
+  .side { display: none; }
+  header.hud, .hud-right { display: none; }
+  footer.controls { left: 12px; right: 12px; }
+  .logo_udea {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 25px;
+    opacity: 0.9;
+    z-index: 1000;
+  }
+}
+
+/* ======= STAR WARS CRAWL ======= */
+
+#screen-10 {
+  position: relative;
+  overflow: hidden;
+  perspective: 900px;
+  perspective-origin: 50% 60%;
+}
+
+.crawlBox {
+  position: absolute;
+  bottom: -120px;
+  left: 50%;
+  transform: translateX(-50%) rotateX(28deg);
+  width: 80%;
+  max-width: 820px;
+  color: #ffe86c;
+  text-align: center;
+  font-size: 20px;
+  line-height: 1.9;
+  animation: crawlAnim 220s linear forwards;
+  transform-origin: 50% 100%;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.crawlInner {
+  margin: 0 auto;
+  max-width: 820px;
+  text-align: left;
+  font-size: 17px;
+  color: #ffe86c;
+}
+.crawlInner > * { margin-bottom: 12px; }
+
+.frame.refs-active #screen-10 ~ aside.side {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.frame.refs-active footer.controls {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .35s ease;
+}
+
+.side {
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity .25s ease;
+}
+
+@keyframes crawlAnim {
+  0% {
+    transform: translateX(-50%) rotateX(28deg) translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) rotateX(28deg) translateY(-6000px);
+    opacity: 0;
+  }
+}
+
+/* Botón presentar estilo centralizado */
+.present-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--accent);
+  color: #00231a;
+  padding: 14px 20px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  z-index: 99999;
+}
+/*star wars*/
+/* CUADRO CONTENEDOR TIPO STAR WARS */
+.starwars-box {
+  position: relative;
+  height: 420px;           /* AJUSTA LA ALTURA */
+  overflow: hidden;
+  width: 100%;
+  margin-top: 30px;
+  perspective: 300px;
+  background: transparent;
+}
+
+/* TEXTO DESPLAZÁNDOSE */
+.starwars-crawl {
+  position: absolute;
+  bottom: -100%;
+  width: 90%;
+  left: 5%;
+  color: #feda4a;
+  font-size: 18px;
+  line-height: 1.6;
+  text-align: justify;
+  transform-origin: bottom center;
+  transform: rotateX(22deg);
+  animation: crawlEffect 55s linear forwards;
+}
+
+/* ANIMACIÓN DEL EFECTO STAR WARS */
+@keyframes crawlEffect {
+  0% {
+    bottom: -100%;
+    transform: rotateX(22deg) translateZ(0);
+  }
+  100% {
+    bottom: 100%;
+    transform: rotateX(22deg) translateZ(-260px);
+  }
+}

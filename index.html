@@ -5,351 +5,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Microjuego: La misión del docente en mundos mediados</title>
-  <style>
-:root {
-  --bg1: #081023;
-  --bg2: #071022;
-  --accent: #00c39a;
-  --muted: #9fb8c6;
-  --panel: #071526;
-  --glass: rgba(255, 255, 255, 0.04);
-  --glass-2: rgba(255, 255, 255, 0.02);
-  font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
-}
-
-html, body {
-  height: 100%;
-  margin: 0;
-  background: linear-gradient(180deg, var(--bg1), var(--bg2));
-  color: #e6f7f1;
-}
-
-.app {
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 28px;
-  box-sizing: border-box;
-}
-
-.frame {
-  width: 100%;
-  max-width: 1100px;
-  height: 80vh;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border-radius: 14px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-  overflow: hidden;
-  position: relative;
-  border: 1px solid rgba(255,255,255,0.03);
-}
-
-header.hud {
-  position: absolute;
-  left: 18px;
-  top: 16px;
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  z-index: 30;
-}
-
-.logo {
-  padding: 8px 12px;
-  background: var(--glass);
-  border-radius: 8px;
-  font-weight: 700;
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.progress {
-  height: 8px;
-  width: 380px;
-  background: var(--glass-2);
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.progress > i {
-  display: block;
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, var(--accent), #00ffd4);
-  transition: width .45s ease;
-}
-
-.frame-body {
-  height: 100%;
-  display: grid;
-  grid-template-columns: 1fr 360px;
-  gap: 18px;
-  padding: 28px;
-}
-
-.main {
-  background: transparent;
-  padding: 18px;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.panel {
-  flex: 1;
-  border-radius: 12px;
-  padding: 26px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border: 1px solid rgba(255,255,255,0.03);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-h1.title { font-size: 28px; margin: 12px 0 6px; letter-spacing: .2px; }
-
-p.lead {
-  color: var(--muted);
-  font-size: 15px;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.cta { margin-top: 20px; display:flex; gap:12px; align-items:center; }
-
-button.btn {
-  background: var(--accent);
-  color: #00231a;
-  border: none;
-  padding: 12px 18px;
-  border-radius: 10px;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 6px 18px rgba(0,195,154,0.12);
-}
-
-button.ghost {
-  background: transparent;
-  color: var(--muted);
-  border: 1px solid rgba(255,255,255,0.04);
-  padding: 10px 14px;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-.hud-right {
-  position: absolute;
-  right: 18px;
-  top: 16px;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  z-index: 30;
-}
-
-.side {
-  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
-  border-left: 1px solid rgba(255,255,255,0.02);
-  padding: 20px;
-  border-radius: 8px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  box-sizing: border-box;
-  z-index: 20; /* menor que screen-10 para que referencias queden encima cuando se active */
-}
-
-.side h3 { margin:6px 0; font-size:14px; color:var(--muted); }
-
-.side .tile {
-  background: rgba(255,255,255,0.02);
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.02);
-  text-align: left;
-  font-size: 13px;
-}
-
-.mission-bubble {
-  background: rgba(0,0,0,0.28);
-  padding: 12px 14px;
-  border-radius: 12px;
-  font-weight: 600;
-  color: var(--accent);
-  display: inline-block;
-}
-
-.icon-row { display:flex; gap:10px; justify-content:center; margin-top:6px; }
-
-.icon {
-  width: 76px; height: 76px;
-  border-radius: 12px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  display:flex; align-items:center; justify-content:center;
-  border: 1px solid rgba(255,255,255,0.02);
-  font-weight:700; color:var(--muted);
-}
-
-footer.controls {
-  position: absolute;
-  bottom: 16px;
-  left: 24px;
-  right: 24px;
-  display:flex;
-  justify-content: space-between;
-  align-items:center;
-  gap:12px;
-  z-index: 40;
-}
-
-.controls .nav { display:flex; gap:10px; }
-
-.kbd {
-  padding: 8px 12px;
-  border-radius: 8px;
-  background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.03);
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.small { font-size: 13px; color: var(--muted); }
-
-/* screen specific */
-.screen-title { font-size: 22px; margin-bottom:6px; }
-.screen-sub { color:var(--muted); font-size:14px; margin-bottom:16px; }
-
-.badge {
-  display:inline-block; background: rgba(0,0,0,0.35);
-  padding: 6px 10px; border-radius:8px; color:var(--accent);
-  font-weight:700; border:1px solid rgba(0,195,154,0.12);
-}
-
-.card-row { display:flex; gap:12px; justify-content:center; margin-top:14px; flex-wrap:wrap; }
-
-.card {
-  width:220px; height:120px; border-radius:12px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
-  display:flex; flex-direction:column; justify-content:center; align-items:center;
-  padding:12px; border:1px solid rgba(255,255,255,0.02);
-}
-
-.quote { font-style: italic; color:var(--muted); margin:10px 0; max-width:720px; }
-
-.final-choices { display:flex; gap:10px; justify-content:center; margin-top:14px; }
-
-input.textin {
-  width: 80%;
-  padding: 10px 12px;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.03);
-  background: transparent;
-  color: var(--muted);
-  font-size: 14px;
-}
-
-/* responsive */
-@media (max-width: 980px) {
-  .frame-body { grid-template-columns: 1fr; padding: 14px; }
-  .side { display: none; }
-  header.hud, .hud-right { display: none; }
-  footer.controls { left: 12px; right: 12px; }
-  .logo_udea {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    width: 25px;
-    opacity: 0.9;
-    z-index: 1000;
-  }
-}
-
-/* ======= STAR WARS CRAWL — parche seguro (reemplaza la sección antigua) ======= */
-
-/* Contenedor con perspectiva (solo screen-10) */
-#screen-10 {
-  position: relative;
-  overflow: hidden;
-  perspective: 900px;
-  perspective-origin: 50% 60%;
-}
-
-/* Caja inclinada del crawl: z-index moderado para no tapar el aside */
-.crawlBox {
-  position: absolute;
-  bottom: -120px;
-  left: 50%;
-  transform: translateX(-50%) rotateX(28deg);
-  width: 80%;
-  max-width: 820px;
-  color: #ffe86c;
-  text-align: center;
-  font-size: 20px;
-  line-height: 1.9;
-  animation: crawlAnim 220s linear forwards; /* ajusta la duración aquí */
-  transform-origin: 50% 100%;
-  z-index: 20; /* moderado: por encima del contenido, debajo del aside/footer */
-  pointer-events: none; /* evita que el crawl capture clicks */
-}
-
-/* Contenido interno del texto */
-.crawlInner {
-  margin: 0 auto;
-  max-width: 820px;
-  text-align: left;
-  font-size: 17px;
-  color: #ffe86c;
-}
-.crawlInner > * { margin-bottom: 12px; }
-
-/* Ocultar aside y footer SOLO cuando refs-active esté aplicado al frame.
-   NOTA: aquí no usamos !important y dejamos z-index naturales para no romper nada. */
-/* ❗ El panel NUNCA debe ocultarse durante navegación normal */
-.frame.refs-active #screen-10 ~ aside.side {
-  opacity: 0;
-  pointer-events: none;
-}
-
-
-/* ocultar footer durante el crawl */
-.frame.refs-active footer.controls {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .35s ease;
-}
-
-/* Asegurar panel lateral en estado normal (sin refs-active) */
-.side {
-  /* no cambiamos z-index agresivos aquí: dejamos lo que ya tengas */
-  opacity: 1;
-  pointer-events: auto;
-  transition: opacity .25s ease;
-}
-
-/* Animación (transform translateY en píxeles, evita usar unidades % que a veces hacen "acostado") */
-@keyframes crawlAnim {
-  0% {
-    transform: translateX(-50%) rotateX(28deg) translateY(0);
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(-50%) rotateX(28deg) translateY(-6000px);
-    opacity: 0;
-  }
-}
-
-</style>
-
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+  <!-- BOTÓN DE PRESENTACIÓN -->
+  <button id="presentBtn" class="present-btn" aria-label="Presentar">PRESENTAR</button>
+
   <div class="app">
     <div class="frame" role="application" aria-label="Microjuego de presentación">
 
@@ -386,7 +48,7 @@ input.textin {
 
           <div class="panel" id="screen-1" style="display:none;">
             <div class="screen-title">Misión 1: El mundo ha cambiado</div>
-            <div class="screen-sub">Identifica el escenario nacional</div>
+            <div class="screen-sub">MEN–SNIES. (2023). Boletín de Educación Superior 2022.</div>
             <div style="display:flex; gap:18px; align-items:center; justify-content:center; flex-wrap:wrap;">
               <div class="card">
                 <div style="font-weight:800; font-size:20px; color:var(--accent);">Virtual ↑</div>
@@ -417,7 +79,7 @@ input.textin {
                 <div class="small">Saber-hacer crítico</div>
               </div>
               <div class="card"><strong>Práctica</strong>
-                <div class="small">Decisiones en aula</div>
+                <div class="small">Decisiones en el aula</div>
               </div>
             </div>
           </div>
@@ -426,7 +88,7 @@ input.textin {
             <div class="screen-title">Misión 3: Explorando el archivo</div>
             <div class="screen-sub">Búsqueda en bases de datos</div>
             <p class="lead">Scielo, Redalyc, Dialnet, Scopus y Scholar: muchos estudios sobre TIC; pocos sobre mediación
-              pedagógica de docentes universitarios en Colombia.</p>
+              pedagógica en docentes universitarios en Colombia.</p>
             <div style="margin-top:12px;">
               <div class="badge">Vacío teórico</div>
             </div>
@@ -460,7 +122,7 @@ input.textin {
           </div>
 
           <div class="panel" id="screen-5" style="display:none;">
-            <div class="screen-title">Misión 5: Laboratorio pedagógico</div>
+            <div class="screen-title">Misión 5: Laboratorio formativo</div>
             <div class="screen-sub">Metodología: Investigación–Acción</div>
             <p class="lead">Trabajo con docentes en ciclos reflexivos: Contextualización educativa, intervención,
               análisis y reconfiguración. El grupo focal fue un espacio de aprendizaje y transformación.</p>
@@ -489,6 +151,9 @@ input.textin {
               </div>
             </div>
             <p class="quote">“El problema no es la herramienta, sino cómo la usamos”.</p>
+            <p class="quote">“Muchos de nosotros usamos los medios solo como soporte técnico; falta asumirlos como espacios de cultura y política”</p>
+              <p class="quote">“Necesitamos competencias críticas para no caer en la fascinación por la herramienta; la educación es más que manejo de software” .</p>
+                <p class="quote">“estas plataformas nos obligan a cambiar, a planear de otra manera y a reconocer a los estudiantes como productores de conocimiento” .</p>
           </div>
 
           <div class="panel" id="screen-7" style="display:none;">
@@ -509,111 +174,161 @@ input.textin {
           <div class="panel" id="screen-9" style="display:none;">
             <div class="screen-title">Misión final: Feedback Final</div>
             <div class="screen-sub">Preguntas + Recomendaciones</div>
-            <p class="lead">Gracias por acompañar esta misión pedagógica.
+            <p class="lead">Gracias por acompañar esta misión.
               Con esta experiencia cierro el propósito de mi trabajo de grado: evidenciar que los medios no solo
               acompañan la docencia, sino que reconfiguran la identidad, las decisiones y la acción pedagógica
               del docente contemporáneo.</p>
-
             <div style="margin-top:12px; display:flex; flex-direction:column; align-items:center;">
-  
-  <button class="btn" id="endGameBtn" style="margin-bottom:24px;">
-    END GAME
-  </button>
 
-  <div class="badge">Universidad de Antioquia — Rafael R. Ramírez</div>
+              <button class="btn" id="endGameBtn" style="margin-bottom:24px;">
+                END GAME
+              </button>
 
-</div>
+              <div class="badge">Universidad de Antioquia — Rafael R. Ramírez</div>
+
+            </div>
 
           </div>
 
           <!-- =============== SCREEN 10 =============== -->
           <div class="panel" id="screen-10" style="display:none;">
             <div id="refsContent" style="max-width:820px; margin: 0 auto; text-align:left; color:#ffe86c;">
-              <h1 style="text-align:center; color:var(--accent);">REFERENCIAS</h1>
+    <h2>Referencias</h2>
 
-    <p>Arenas Fernández, A. H. (2022). Competencia mediática en estudiantes y profesores colombianos [Tesis doctoral, Universidad de Huelva].</p>
-    <p>Baacke, D. (1973). Kommunikation und Kompetenz: Grundlegung einer Didaktik der Kommunikation und ihrer Medien. Juventa Verlag.</p>
-    <p>Baacke, D. (1996). Medienpädagogik. Niemeyer.</p>
-    <p>Barraza Macías, A. (2020, agosto 2). Investigación acción [Video]. YouTube. https://www.youtube.com/watch?v=JG1RsGoI9P0</p>
-    <p>Buckingham, D. (2005). Educación en medios: Alfabetización, aprendizaje y cultura contemporánea. Ediciones Paidós. (Trabajo original publicado en 2003).</p>
-    <p>Carr, W., & Kemmis, S. (1988). Teoría crítica de la enseñanza: La investigación-acción en la formación del profesorado. Martínez Roca. https://archive.org/details/carr-w.-y-kemmis-s.-teoria-critica-de-la-ensenanza/page/n1/mode/2up</p>
-    <p>Castañeda, L., & Selwyn, N. (2020). ¿Algo más que herramientas? Dar sentido a la digitalización actual de la Educación Superior. En L. Castañeda & N. Selwyn (Eds.), Reiniciando la universidad: Buscando un modelo de universidad en tiempos digitales (pp. 21–35). Octaedro.</p>
-    <p>Chomsky, N. (1970). Aspectos de la teoría de la sintaxis (C.-P. Otero, Trad.). Gedisa. (Trabajo original publicado en 1965).</p>
-    <p>Chomsky, N. (2002). Syntactic structures (2nd ed., D. W. Lightfoot, Intro.). Mouton de Gruyter.</p>
-    <p>Colombia. Congreso de la República. (2012). Ley 1581 de 2012, por la cual se dictan disposiciones generales para la protección de datos personales. Diario Oficial No. 48.587 del 18 de octubre de 2012. https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=49981</p>
-    <p>Colombia. Presidencia de la República. (2013). Decreto 1377 de 2013, por el cual se reglamenta parcialmente la Ley 1581 de 2012. Diario Oficial No. 48.834 del 27 de junio de 2013. https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=53646</p>
-    <p>Corona Domínguez, B. (2024). Competencias digitales docentes en la integración de la inteligencia artificial generativa en educación superior: una revisión sistemática. REDECI, 16(5), 75–94. https://revista.ciinsev.com/assets/pdf/revistas/REVISTA16.5/7.pdf</p>
-    <p>Cortina Orts, A. (2024). ¿Ética o ideología de la inteligencia artificial? El eclipse de la razón comunicativa en una sociedad tecnologizada. Ediciones Paidós.</p>
-    <p>Dewey, J. (1998). Democracia y educación: Una introducción a la filosofía de la educación (L. Luzuriaga, Trad.). Ediciones Morata. (Trabajo original publicado en 1916).</p>
-    <p>Flick, U. (2015). El diseño de investigación cualitativa. Morata. (Trabajo original publicado en 2007).</p>
-    <p>Franco Loaiza, D. F. (2015). Entre la enseñanza audiovisual y la educación virtual: Medios educativos y objetos virtuales de aprendizaje [Trabajo de maestría, Universidad Pedagógica Nacional]. Universidad Pedagógica Nacional.</p>
-    <p>Freire, P. (1997). Pedagogía de la autonomía: Saberes necesarios para la práctica educativa. Siglo XXI Editores. (Trabajo original publicado en 1996).</p>
-    <p>Freire, P. (2019). Pedagogía del oprimido (30.ª ed.). Siglo XXI Editores. (Obra original publicada en 1970).</p>
-    <p>Gadamer, H.-G. (2003). Verdad y método (A. Agud Aparicio & R. de Agapito, Trads.). Ediciones Sígueme. (Trabajo original publicado en 1960).</p>
-    <p>García San Martín, M. J. (2024). ¿Qué lugar ocupa la IA en las competencias digitales de los docentes? Education in the Knowledge Society (EKS), 25, e31942. https://revistas.usal.es/tres/index.php/eks/article/view/31942</p>
-    <p>González Lorenzo, C. (2021). Educación mediática: una necesidad en la educación para la vida. Propuesta de un programa de educación mediática creativa en educación infantil [TFG, Univ. de Valladolid].</p>
-    <p>Grandío-Pérez, M. M. (2016). El transmedia en la enseñanza universitaria: Análisis de las asignaturas de educación mediática en España (2012-2013). Palabra Clave, 19(1), 85–104. https://doi.org/10.5294/pacla.2016.19</p>
-    <p>Gutiérrez Martín, A., & Torrego González, A. (2018). Educación mediática y su didáctica: Una propuesta para la formación del profesorado en TIC y medios. Revista Interuniversitaria de Formación del Profesorado, 32(1), 15–27. Universidad de Zaragoza.</p>
-    <p>Horlacher, R. (2016). The making of education: The formation of Bildung as a pedagogical concept. Routledge. https://doi.org/10.4324/9781315814667</p>
-    <p>Jenkins, H. (2008). Convergence culture: La cultura de la convergencia de los medios de comunicación (P. Hermida Lazcano, Trad.). Paidós. (Trabajo original publicado en 2006).</p>
-    <p>Jenkins, H. (2009). Confronting the challenges of participatory culture: Media education for the 21st century. MIT Press.</p>
-    <p>Jiménez Londoño, S. (2025). Algoritmos deshumanizantes: IA y la pérdida de la noción de individuo. Aún Humanos.</p>
-    <p>Kaplún, M. (1998). Una pedagogía de la comunicación. Ediciones de la Torre.</p>
-    <p>Kemmis, S., & McTaggart, R. (1988). Cómo planificar la investigación-acción. Laertes.</p>
-    <p>Klafki, W. (1991). Sobre la relación entre didáctica y metódica. Revista Educación y Pedagogía, 2(5), 85–108.</p>
-    <p>Lenovo & OnePoll. (2024). Gen Zers are living a 'double life': study. New York Post. https://nypost.com/2024/05/29/lifestyle/gen-zers-are-living-a-double-life-study/</p>
-    <p>Lewin, K. (1990). Action research and minority problems. Journal of Social Issues, 2(4), 34–46. (Trabajo original publicado en 1946).</p>
-    <p>Livingstone, S. (2004a). Media literacy and the challenge of new information and communication technologies. The Communication Review, 7(1), 3–14. https://doi.org/10.1080/10714420490280152</p>
-    <p>Livingstone, S. (2004b). What is media literacy? Intermedia, 32(3), 18–20.</p>
-    <p>Martín-Barbero, J. (1987). De los medios a las mediaciones: Comunicación, cultura y hegemonía. Gustavo Gili.</p>
-    <p>Martín-Barbero, J. (2002). Oficio de cartógrafo: Travesías latinoamericanas de la comunicación en la cultura. Fondo de Cultura Económica.</p>
-    <p>McLuhan, M. (2013). Understanding media: The extensions of man. Gingko Press. (Obra original publicada en 1964).</p>
-    <p>MEN–SNIES. (2023). Boletín de Educación Superior 2022. Sistema Nacional de Información de la Educación Superior – Ministerio de Educación Nacional. https://snies.mineducacion.gov.co/1778/articles-416243_recurso_1.pdf</p>
-    <p>Microsoft Corporation. (2025). Microsoft Excel for Mac (Versión 16.102) [Software]. Microsoft 365. https://www.microsoft.com/microsoft-365/excel</p>
-    <p>Ministerio de Educación Nacional. (2023). Boletín Estadístico de Educación Superior 2022. SNIES. https://snies.mineducacion.gov.co</p>
-    <p>Morales Gallo, A. de J. (2023). Relatar lo que acontece en la relación profesor–estudiante en educación virtual: Un tejido de experiencias desde las percepciones y los sentimientos de un grupo de profesores de la Universidad de Antioquia (Tesis de maestría, Universidad de Antioquia).</p>
-    <p>Orozco Gómez, G. (2008). Audiencias y pantallas en América. Comunicar, 15(30), 10–14. https://www.redalyc.org/pdf/158/15811864002.pdf</p>
-    <p>Paredes Oviedo, D. M. (2017). El análisis didáctico de Wolfgang Klafki como alternativa para la enseñanza de la filosofía. Pedagogía y Saberes, (47), 31–47.</p>
-    <p>Postman, N. (1993). Technopoly: The surrender of culture to technology. Vintage Books. https://archive.org/details/235p-technopoly-neil-postman</p>
-    <p>Python Software Foundation. (2025). Python (Versión 3.12) [Software]. https://www.python.org</p>
-    <p>Restrepo Gómez, B. (2004). La investigación-acción educativa y la construcción de saber pedagógico. Educación y Educadores, 7, 45–55.</p>
-    <p>Sander, U., von Gross, F., & Hug, T. (Eds.). (2008). Handbuch Medienpädagogik. Springer VS.</p>
-    <p>Schorb, B. (1995). Medienalltag und Handeln (1. Aufl.). Leske + Budrich.</p>
-    <p>Schorb, B. (2005). Medienpädagogik. Neue Herausforderungen en Handbuch Medienpädagogik (pp. 17–24). VS Verlag für Sozialwissenschaften.</p>
-    <p>Soto Ossa, P. A. (2018). El papel de la pedagogía mediática y el uso de recursos audiovisuales en la construcción de representaciones acerca de la sexualidad en un grupo de niños y niñas entre 5 y 6 años de edad [Tesis de Maestría, Universidad de Antioquia].</p>
-    <p>Universidad de Antioquia. (2017a). Políticas curriculares. Vicerrectoría de Docencia.</p>
-    <p>Universidad de Antioquia. (2017b, 30 de noviembre). Acuerdo Académico 527 de 2017: Programa de formación complementaria. Secretaría General. https://www.udea.edu.co/wps/portal/udea/web/inicio/docencia/asuntos-curriculares/politicas-curriculares</p>
-    <p>Universidad de Antioquia. (2024). Plan de Acción Institucional 2024–2027. Universidad de Antioquia.</p>
-    <p>Universidad de Antioquia. (s.f.-a). Ude@. Vicerrectoría de Docencia. https://udearroba.udea.edu.co/home/</p>
-    <p>Universidad de Antioquia. (s.f.-c). Sistema de Bibliotecas. Universidad de Antioquia. https://www.udea.edu.co/wps/portal/udea/web/inicio/sistema-bibliotecas</p>
-    <p>Vasilachis de Gialdino, I. (2006). Estrategias de investigación cualitativa. Gedisa.</p>
-    <p>Wulf, C. (1999). Introducción a la ciencia de la educación: entre teoría y práctica. Universidad de Antioquia. (Obra original publicada en 1973).</p>
+    <p>Arenas Fernández, A. H. (2022). <i>Competencia mediática en estudiantes y profesores colombianos</i> [Tesis doctoral, Universidad de Huelva].</p>
 
-    <br>
-    <p style="text-align:center;">Universidad de Antioquia</p>
+    <p>Baacke, D. (1973). <i>Kommunikation und Kompetenz: Grundlegung einer Didaktik der Kommunikation und ihrer Medien</i>. Juventa Verlag.</p>
+
+    <p>Baacke, D. (1996). <i>Medienpädagogik</i>. Niemeyer.</p>
+
+    <p>Barraza Macías, A. (2020, agosto 2). <i>Investigación acción</i> [Video]. YouTube. https://www.youtube.com/watch?v=JG1RsGoI9P0</p>
+
+    <p>Buckingham, D. (2005). <i>Educación en medios: Alfabetización, aprendizaje y cultura contemporánea</i>. Ediciones Paidós. (Trabajo original publicado en 2003).</p>
+
+    <p>Carr, W., & Kemmis, S. (1988). <i>Teoría crítica de la enseñanza: La investigación-acción en la formación del profesorado</i>. Martínez Roca. https://archive.org/details/carr-w.-y-kemmis-s.-teoria-critica-de-la-ensenanza/page/n1/mode/2up</p>
+
+    <p>Castañeda, L., & Selwyn, N. (2020). ¿Algo más que herramientas? Dar sentido a la digitalización actual de la Educación Superior. En L. Castañeda & N. Selwyn (Eds.), <i>Reiniciando la universidad</i> (pp. 21–35). Octaedro.</p>
+
+    <p>Chomsky, N. (1970). <i>Aspectos de la teoría de la sintaxis</i> (C.-P. Otero, Trad.). Gedisa. (Trabajo original publicado en 1965).</p>
+
+    <p>Chomsky, N. (2002). <i>Syntactic structures</i> (2nd ed., D. W. Lightfoot, Intro.). Mouton de Gruyter. https://archive.org/details/NoamChomskySyntcaticStructures/page/n5/mode/2up</p>
+
+    <p>Colombia. Congreso de la República. (2012). <i>Ley 1581 de 2012</i>. https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=49981</p>
+
+    <p>Colombia. Presidencia de la República. (2013). <i>Decreto 1377 de 2013</i>. https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=53646</p>
+
+    <p>Corona Domínguez, B. (2024). Competencias digitales docentes e IA generativa. <i>REDECI</i>, 16(5), 75–94. https://revista.ciinsev.com/assets/pdf/revistas/REVISTA16.5/7.pdf</p>
+
+    <p>Cortina Orts, A. (2024). <i>¿Ética o ideología de la inteligencia artificial?</i> Ediciones Paidós.</p>
+
+    <p>Dewey, J. (1998). <i>Democracia y educación</i> (L. Luzuriaga, Trad.). Ediciones Morata. (Obra original publicada en 1916).</p>
+
+    <p>Flick, U. (2015). <i>El diseño de investigación cualitativa</i>. Morata.</p>
+
+    <p>Franco Loaiza, D. F. (2015). <i>Entre la enseñanza audiovisual y la educación virtual</i> [Tesis de maestría, Universidad Pedagógica Nacional].</p>
+
+    <p>Freire, P. (1997). <i>Pedagogía de la autonomía</i>. Siglo XXI Editores.</p>
+
+    <p>Freire, P. (2019). <i>Pedagogía del oprimido</i> (30.ª ed.). Siglo XXI Editores.</p>
+
+    <p>Gadamer, H.-G. (2003). <i>Verdad y método</i>. Ediciones Sígueme.</p>
+
+    <p>García San Martín, M. J. (2024). IA en las competencias digitales docentes. <i>EKS</i>, 25, e31942. https://revistas.usal.es/tres/index.php/eks/article/view/31942</p>
+
+    <p>González Lorenzo, C. (2021). <i>Educación mediática: una necesidad en la educación para la vida</i> [Trabajo de grado]. Universidad de Valladolid.</p>
+
+    <p>Grandío-Pérez, M. M. (2016). El transmedia en la enseñanza universitaria. <i>Palabra Clave</i>, 19(1), 85–104.</p>
+
+    <p>Gutiérrez Martín, A., & Torrego González, A. (2018). Educación mediática y su didáctica. <i>RIFP</i>, 32(1), 15–27.</p>
+
+    <p>Horlacher, R. (2016). <i>The making of education</i>. Routledge.</p>
+
+    <p>Jenkins, H. (2008). <i>Convergence culture</i>. Paidós.</p>
+
+    <p>Jenkins, H. (2009). <i>Confronting the challenges of participatory culture</i>. MIT Press.</p>
+
+    <p>Jiménez Londoño, S. (2025). <i>Algoritmos deshumanizantes</i>. Aún Humanos.</p>
+
+    <p>Kaplún, M. (1998). <i>Una pedagogía de la comunicación</i>. Ediciones de la Torre.</p>
+
+    <p>Kemmis, S., & McTaggart, R. (1988). <i>Cómo planificar la investigación-acción</i>. Laertes.</p>
+
+    <p>Klafki, W. (1991). Sobre la relación entre didáctica y metódica. <i>Educación y Pedagogía</i>, 2(5), 85–108.</p>
+
+    <p>Lenovo & OnePoll. (2024). Gen Zers are living a “double life.” <i>New York Post</i>.</p>
+
+    <p>Lewin, K. (1990). Action research and minority problems. <i>Journal of Social Issues</i>, 2(4), 34–46.</p>
+
+    <p>Livingstone, S. (2004a). Media literacy and ICTs. <i>The Communication Review</i>, 7(1), 3–14.</p>
+
+    <p>Livingstone, S. (2004b). What is media literacy? <i>Intermedia</i>, 32(3), 18–20.</p>
+
+    <p>Martín-Barbero, J. (1987). <i>De los medios a las mediaciones</i>. Gustavo Gili.</p>
+
+    <p>Martín-Barbero, J. (2002). <i>Oficio de cartógrafo</i>. Fondo de Cultura Económica.</p>
+
+    <p>McLuhan, M. (2013). <i>Understanding media</i>. Gingko Press.</p>
+
+    <p>MEN–SNIES. (2023). <i>Boletín de Educación Superior 2022</i>.</p>
+
+    <p>Microsoft Corporation. (2025). <i>Excel para Mac</i> (Versión 16.102).</p>
+
+    <p>Ministerio de Educación Nacional. (2023). <i>Boletín Estadístico de Educación Superior 2022</i>.</p>
+
+    <p>Morales Gallo, A. de J. (2023). <i>Relatar lo que acontece en la relación profesor–estudiante</i> [Tesis de maestría]. Universidad de Antioquia.</p>
+
+    <p>Orozco Gómez, G. (2008). Audiencias y pantallas en América. <i>Comunicar</i>, 15(30), 10–14.</p>
+
+    <p>Paredes Oviedo, D. M. (2017). Klafki y la enseñanza de la filosofía. <i>Pedagogía y Saberes</i>, (47), 31–47.</p>
+
+    <p>Postman, N. (1993). <i>Technopoly</i>. Vintage Books.</p>
+
+    <p>Python Software Foundation. (2025). <i>Python 3.12</i>. https://www.python.org</p>
+
+    <p>Restrepo Gómez, B. (2004). La investigación-acción educativa. <i>Educación y Educadores</i>, 7, 45–55.</p>
+
+    <p>Sander, U., von Gross, F., & Hug, T. (2008). <i>Handbuch Medienpädagogik</i>. Springer VS.</p>
+
+    <p>Schorb, B. (1995). <i>Medienalltag und Handeln</i>. Leske + Budrich.</p>
+
+    <p>Schorb, B. (2005). Medienpädagogik. En N. Neumann-Braun et al., <i>Handbuch Medienpädagogik</i> (pp. 17–24). VS Verlag.</p>
+
+    <p>Soto Ossa, P. A. (2018). <i>El papel de la pedagogía mediática</i> [Tesis de Maestría]. Universidad de Antioquia.</p>
+
+    <p>Universidad de Antioquia. (2017a). <i>Políticas curriculares</i>.</p>
+
+    <p>Universidad de Antioquia. (2017b). <i>Acuerdo Académico 527 de 2017</i>. https://www.udea.edu.co</p>
+
+    <p>Universidad de Antioquia. (2024). <i>Plan de Acción Institucional 2024–2027</i>.</p>
+
+    <p>Universidad de Antioquia. (s.f.-a). <i>Ude@</i>. https://udearroba.udea.edu.co/home/</p>
+
+    <p>Universidad de Antioquia. (s.f.-c). <i>Sistema de Bibliotecas</i>. https://www.udea.edu.co</p>
+
+    <p>Vasilachis de Gialdino, I. (2006). <i>Estrategias de investigación cualitativa</i>. Gedisa.</p>
+
+    <p>Wulf, C. (1999). <i>Introducción a la ciencia de la educación</i>. Universidad de Antioquia.</p>
 
             </div>
           </div>
-
+        
         </div> <!-- cierre .main -->
 
         <aside class="side" aria-hidden="true">
           <h3>Panel de misión</h3>
           <div class="tile"><strong>Entre medios, saberes y prácticas:</strong> pedagogía mediática en el programa
             Tecnología en Gestión de Insumos Agropecuarios de la Universidad de Antioquia</div>
-          <div class="tile"><strong>Objetivo general:</strong> Comprender cómo la pedagogía mediática transforma la
-            práctica docente mediante la reflexión–acción de estrategias de educación mediática.</div>
+          <div class="tile"><strong>Objetivo general:</strong> Comprender cómo la pedagogía mediática transforma la práctica educativa docente mediante reflexión crítica sobre estrategias de educación mediática en el programa TGIA.</div>
           <div class="tile"><strong>Objetivos específicos:</strong>
             <ul>
-              <li>Explorar prácticas y formación docente.</li>
-              <li>Analizar mediaciones y tensiones docentes.</li>
-              <li>Reconocer fundamentos de pedagogía mediática.</li>
+              <li>Explorar prácticas educativas y necesidades formativas docentes.</li>
+              <li>Estudiar uso de medios y entornos virtuales.</li>
+              <li>Reconocer la pedagogía mediática como sustento docente.</li>
             </ul>
           </div>
-          <div class="tile" id="hintTile">¿Cómo orienta la pedagogía mediática la transformación de la práctica docente
-            en el TGIA frente a los cambios institucionales y mediáticos actuales?</div>
+          <div class="tile" id="hintTile">¿Cómo puede la pedagogía mediática transformar la práctica educativa del programa TGIA ante los cambios institucionales y mediáticos actuales?</div>
 
-          <img src="logo_udea.png" class="logo_udea">
+          <img src="logo_udea.png" class="logo_udea" alt="Logo UdeA">
         </aside>
 
       </div> <!-- cierre .frame-body -->
@@ -629,211 +344,6 @@ input.textin {
     </div>
   </div>
 
-<script>
-/* ---------- Variables globales ---------- */
-const panels = Array.from(document.querySelectorAll('.panel')); // todos los panels
-const screensCount = panels.length; // debería ser 11 en tu caso
-let idx = 0;
-const frame = document.querySelector('.frame');
-const bar = document.getElementById('bar');
-const startBtn = document.getElementById('startBtn');
-const prevBtn = document.getElementById('prevBtn');
-const nextBtn = document.getElementById('nextBtn');
-const helpBtn = document.getElementById('helpBtn');
-const endGameBtn = document.getElementById('endGameBtn');
-const exitInput = document.getElementById('exitInput');
-const savedMessage = document.getElementById('savedMessage');
-
-let originalRefsHtml = null; // guardar HTML original de referencias para restaurar
-let crawlTimeout = null;     // timeout que controla la restauración después de la animación
-
-/* ---------- Util: obtener panel por índice ---------- */
-function getPanel(i) {
-  return document.getElementById('screen-' + i);
-}
-
-/* ---------- Mostrar pantalla segura ---------- */
-function show(n) {
-  // asegurar índice válido
-  const target = Math.max(0, Math.min(n, 1000)); // clip alto por seguridad
-  // siempre quitamos refs-active al inicio (para evitar que se quede pegado)
-  frame.classList.remove('refs-active');
-
-  // ocultar todos los panels
-  panels.forEach(p => {
-    p.style.display = 'none';
-  });
-
-  // cancelar crawl si estaba corriendo
-  cancelRestoreCrawl();
-
-  // mostrar el panel solicitado
-  const p = getPanel(target);
-  if (!p) {
-    console.warn('Panel no encontrado:', target);
-    return;
-  }
-  p.style.display = 'flex';
-  p.style.flexDirection = 'column';
-
-  idx = target;
-
-  // actualizar progress bar si existe
-  if (bar) {
-    const pct = ((idx + 1) / Math.max(screensCount, 1)) * 100;
-    bar.style.width = pct + '%';
-  }
-
-  // foco en input en misión 8
-  if (idx === 8 && exitInput) exitInput.focus();
-
-  // habilitar/deshabilitar botones
-  if (prevBtn) prevBtn.disabled = idx === 0;
-  if (nextBtn) nextBtn.disabled = idx === (screensCount - 1);
-
-  // si es la pantalla 10, iniciar crawl
-  if (idx === 10) {
-    startCrawl();
-  }
-}
-
-/* ---------- Navegación ---------- */
-function goNext() { show(idx + 1); }
-function goPrev() { show(idx - 1); }
-
-/* ---------- Eventos UI ---------- */
-startBtn?.addEventListener('click', () => goNext());
-nextBtn?.addEventListener('click', () => goNext());
-prevBtn?.addEventListener('click', () => goPrev());
-helpBtn?.addEventListener('click', () => {
-  alert("Navega con ← → o con los botones. En la pantalla de evaluación escribe una idea y presiona Enter.");
-});
-endGameBtn?.addEventListener('click', () => show(10));
-
-/* ---------- Teclado ---------- */
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'ArrowRight') { goNext(); }
-  if (e.key === 'ArrowLeft')  { goPrev(); }
-  if (e.key === 'Enter') {
-    if (idx === 0) { goNext(); }
-    else if (idx === 8 && exitInput && exitInput.value.trim() !== '') { saveExit(); goNext(); }
-  }
-});
-
-/* ---------- Guardar idea ---------- */
-function saveExit() {
-  if (!exitInput || !savedMessage) return;
-  const val = exitInput.value.trim();
-  if (!val) return;
-  savedMessage.textContent = 'Idea guardada: "' + val + '" — gracias.';
-  exitInput.value = '';
-}
-exitInput?.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') {
-    saveExit();
-    setTimeout(() => goNext(), 320);
-  }
-});
-
-/* ---------- CRAWL: iniciar y restaurar ---------- */
-function startCrawl() {
-  const screen10 = getPanel(10);
-  if (!screen10) return;
-
-  // si ya está en marcha, no reiniciar
-  if (screen10.dataset.crawlStarted === '1') return;
-  screen10.dataset.crawlStarted = '1';
-
-  // capturar HTML original si no existe
-  const refsContentEl = screen10.querySelector('#refsContent');
-  originalRefsHtml = originalRefsHtml || (refsContentEl ? refsContentEl.outerHTML : screen10.innerHTML);
-
-  // limpiar y crear crawlBox + crawlInner
-  screen10.innerHTML = '';
-  screen10.style.position = 'relative';
-  screen10.style.overflow = 'hidden';
-
-  const box = document.createElement('div');
-  box.className = 'crawlBox';
-
-  const inner = document.createElement('div');
-  inner.className = 'crawlInner';
-  // si teníamos refsContent, solo poner su innerHTML
-  inner.innerHTML = refsContentEl ? refsContentEl.innerHTML : originalRefsHtml;
-
-  box.appendChild(inner);
-  screen10.appendChild(box);
-
-// ocultar aside/footer SOLO en screen-10
-setTimeout(() => {
-  if (idx === 10) frame.classList.add('refs-active');
-}, 200);
-
-
-  // Preparar restauración al terminar la animación
-  // Usa misma duración que tu CSS (en ms). Ajusta si cambias CSS.
-  const animDurationMs = 298000; // si en css pusiste 298s -> 298000 ms
-  // limpia cualquier timeout previo
-  if (crawlTimeout) clearTimeout(crawlTimeout);
-  crawlTimeout = setTimeout(() => restoreRefs(screen10), animDurationMs + 300);
-}
-
-/* cancelar restauración pendiente y limpiar crawl si sales antes */
-function cancelRestoreCrawl() {
-  if (crawlTimeout) {
-    clearTimeout(crawlTimeout);
-    crawlTimeout = null;
-  }
-  const screen10 = getPanel(10);
-  if (!screen10) return;
-  // si existe crawlBox, restaurar inmediatamente
-  const box = screen10.querySelector('.crawlBox');
-  if (box) {
-    restoreRefs(screen10);
-  }
-}
-
-/* restaura el contenido original de screen-10 y quita clase refs-active */
-function restoreRefs(screen10) {
-  if (!screen10) return;
-  // vaciar y restaurar originalRefsHtml como #refsContent
-  screen10.innerHTML = '';
-  const restore = document.createElement('div');
-  restore.id = 'refsContent';
-  restore.style.maxWidth = '820px';
-  restore.style.margin = '0 auto';
-  restore.style.textAlign = 'left';
-  restore.style.color = '#ffe86c';
-  restore.innerHTML = (originalRefsHtml || '');
-  screen10.appendChild(restore);
-
-  // quitar refs-active para mostrar aside/footer
-  frame.classList.remove('refs-active');
-
-  // permitir re-ejecutar el crawl
-  delete screen10.dataset.crawlStarted;
-
-  if (crawlTimeout) {
-    clearTimeout(crawlTimeout);
-    crawlTimeout = null;
-  }
-}
-
-/* ---------- Accesibilidad (anuncio) ---------- */
-function announce(msg) {
-  const t = document.createElement('div');
-  t.style.position = 'absolute';
-  t.style.left = '-9999px';
-  t.setAttribute('aria-live', 'polite');
-  t.textContent = msg;
-  document.body.appendChild(t);
-  setTimeout(() => t.remove(), 800);
-}
-document.addEventListener('keydown', () => announce('Pantalla ' + (idx + 1)));
-
-/* ---------- Inicializar en 0 ---------- */
-show(0);
-</script>
-
+  <script src="script.js"></script>
 </body>
 </html>
